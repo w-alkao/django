@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Book
 from .utils import average_rating
 
@@ -40,3 +40,32 @@ def book_list(request):
     'reviews/book_list.html',
     context
   )
+
+
+
+
+def book_detail(request, pk):
+  book = get_object_or_404(Book, pk=pk)
+  reviews = book.review_set.all()
+
+  if reviews:
+    book_rating = average_rating([review.rating for review in reviews])
+    context = {
+      'book': book,
+      'book_rating': book_rating,
+      'reviews': reviews,
+    }
+  else:
+    context = {
+      'book': book,
+      'book_rating': None,
+      'reviews': None
+    }
+
+
+  return render(
+    request,
+    'reviews/book_detail.html',
+    context
+  )
+
