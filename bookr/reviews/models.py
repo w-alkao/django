@@ -35,6 +35,9 @@ class Contributor(models.Model):
   last_names = models.CharField(max_length=50, help_text="The contributor's last name or names.")
   email = models.EmailField(help_text="The contact email for the contributor.")
 
+  def initialled_name(self):
+    initials = ''.join(name[0] for name in self.first_names.split(' '))
+    return f'{self.last_names}, {initials}'
   def __str__(self):
     return self.first_names
 
