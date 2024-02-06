@@ -1,0 +1,18 @@
+<h1>Django Form Example</h1>
+<form method="post">
+  <h4>Method: {{ method }}</h4>
+  {% csrf_token %}
+
+  <table>
+    {{ form.as_table }}
+  </table>
+
+  <p>
+    <input type="submit" name="submit_input" value="Submit Input">
+  </p>
+  <p>
+    <button type="submit" name="button_element" value="Button Element">
+      Button With <strong>Styled</strong> Text
+    </button>
+  </p>
+</form>

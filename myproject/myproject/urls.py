@@ -22,5 +22,6 @@ import myapp.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html')),
-    path('form-example/', myapp.views.form_example),
+    path('html-form-example/', myapp.views.html_form_example),
+    path('django-form-example/', myapp.views.django_form_example),
 ]
