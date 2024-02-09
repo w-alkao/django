@@ -2,9 +2,9 @@
 
 {% block title %}
   {% if form.is_valid and search_text %}
-    <title>Search Results for {{ search_text }}</title>
+    Search Results for {{ search_text }}
   {% else %}
-    <title>Book Search</title>
+    Book Review
   {% endif %}
 {% endblock %}
 
@@ -24,14 +24,20 @@
 
   {% if form.is_valid and search_text %}
     <h3>Search results for <em>{{ search_text }}</em></h3>
-    {% if book_list is empty %}
+    {% if not book_list %}
       <p>No results found</p>
     {% else %}
       <ul class="list-group">
         {% for item in book_list %}
         <li class="list-group-item">
-          <span class="text-info">Title: </span><span>{{ item.book.title }}</span>
+          <span class="text-info">Title: </span><span><a href="/books/{{ item.book.id }}/">{{ item.book.title }}</a></span>
           <br>
+          <span class="text-info">Contributors: </span>
+          <span>
+            {% for itm in item.contributors %}
+              {{ itm.first_names }} {{ itm.last_names }},
+            {% endfor %}
+          </span>
         </li>
         {% endfor %}
       </ul>
