@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Search results for: {{ search_text }}</title>
-</head>
-<body>
-  <h1>Search results for <em>{{ search_text }}</em></h1>
-</body>
-</html>
+{% extends 'reviews/base.html' %}
+
+{% block title %}
+  {% if form.is_valid and search_text %}
+    <title>Search Results for {{ search_text }}</title>
+  {% else %}
+    <title>Book Search</title>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h2>Search for Books</h2>
+  <form>
+    <table>
+      {{ form.as_table }}
+    </table>
+    <br>
+    <p>
+      <button class="btn btn-primary" type="submit" name="button_element" value="Button Element">
+        <strong>Submit</strong>
+      </button>
+    </p>
+  </form>
+
+  {% if form.is_valid and search_text %}
+    <h3>Search results for <em>{{ search_text }}</em></h3>
+    {% if book_list is empty %}
+      <p>No results found</p>
+    {% else %}
+      <ul class="list-group">
+        {% for item in book_list %}
+        <li class="list-group-item">
+          <span class="text-info">Title: </span><span>{{ item.book.title }}</span>
+          <br>
+        </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+
+{% endblock %}
