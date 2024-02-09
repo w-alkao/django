@@ -74,38 +74,29 @@ def book_detail(request, pk):
 #------------------------------------------------------------------------------
 
 def book_search(request):
-  if request.method == "GET":
-    form = SearchForm(request.GET)
-    book_list = []
-    search_text = request.GET.get("search")
-    if form.is_valid() and search_text is not None:
-      search_by = form.cleaned_data.get("search_in")
-      if search_by == "title":
-        books = Book.objects.filter(title__icontains=search_text)
-        for book in books:
-          book_list.append({"book": book, "contributors": book.contributors.all()})
-      elif search_by == "contributor":
-        contributor_first_name = Contributor.objects.filter(first_names__icontains=search_text)
-        contributor_last_name = Contributor.objects.filter(last_names__icontains=search_text)
-        for contributor in contributor_first_name:
-          books = contributor.book_set.all()
-          for book in books:
-            book_list.append({"book": book, "contributors": book.contributors.all()})
-        for contributor in contributor_last_name:
-          books = contributor.book_set.all()
-          for book in books:
-            book_list.append({"book": book, "contributors": book.contributors.all()})
-      else:
-        book_list = []
-        contributor_list = []
+  search_text = request.GET.get("search", "")
+  form = SearchForm(request.GET)
+  books = set()
 
-  else:
-    form = SearchForm()
+  if form.is_valid() and form.cleaned_data["search"]:
+    search = form.cleaned_data["search"]
+    search_by = form.cleaned_data.get("search_in") or "title"
+    if search_by == "title":
+      books = Book.objects.filter(title__icontains=search)
+    else:
+      contributor_first_name = Contributor.objects.filter(first_names__icontains=search)
+      contributor_last_name = Contributor.objects.filter(last_names__icontains=search)
+      for contributor in contributor_first_name:
+        for book in contributor.book_set.all():
+          books.add(book)
+      for contributor in contributor_last_name:
+        for book in contributor.book_set.all():
+          books.add(book)
 
   context = {
-    "book_list": book_list,
     "form": form,
     "search_text": search_text,
+    "books": books,
   }
 
   return render(request, "reviews/search_result.html", context)
