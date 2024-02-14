@@ -12,6 +12,7 @@ class Publisher(models.Model):
     return self.name
 
 
+#-------------------------------------------------------------------------------------------------
 
 
 class Book(models.Model):
@@ -29,6 +30,9 @@ class Book(models.Model):
 
 
 
+#-------------------------------------------------------------------------------------------------------------------
+
+
 
 class Contributor(models.Model):
   first_names = models.CharField(max_length=50, help_text="The contributor's first name or names.")
@@ -43,6 +47,9 @@ class Contributor(models.Model):
 
 
 
+#---------------------------------------------------------------------------------------------------------
+
+
 
 class BookContributor(models.Model):
   class ContributorRole(models.TextChoices):
@@ -54,6 +61,9 @@ class BookContributor(models.Model):
   contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
   role = models.CharField(verbose_name="The role this contributor had in the book.", choices=ContributorRole.choices, max_length=20)
 
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------
 
 
 
