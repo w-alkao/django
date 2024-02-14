@@ -34,8 +34,7 @@
   </nav>
   <div class="container-fluid">
     {% for message in messages %}
-      <div class="alert alert-{% if message.level_tal == 'error' %}
-      danger{% else %}{{ message.level_tag }}{% endif %}" role="alert">
+      <div class="alert alert-{% if message.level_tal == 'error' %}danger{% else %}{{ message.level_tag }}{% endif %}" role="alert">
         {{ message }}
       </div>
     {% endfor %}
