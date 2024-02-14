@@ -32,9 +32,17 @@
       </form>
     </div>
   </nav>
-  {% block content %}
-  <h1>Welcome to Bookr!</h1>
-  {% endblock %}
+  <div class="container-fluid">
+    {% for message in messages %}
+      <div class="alert alert-{% if message.level_tal == 'error' %}
+      danger{% else %}{{ message.level_tag }}{% endif %}" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+    {% block content %}
+     <h1>Welcome to Bookr!</h1>
+    {% endblock %}
+  </div>
 
   <footer class="page-footer font-small blue">
     <div class="footer-copyright text-center py-3">&copy;© 2024 Copyright:

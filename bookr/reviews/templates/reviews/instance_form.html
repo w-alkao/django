@@ -1,0 +1,33 @@
+{% extends 'reviews/base.html' %}
+
+{% block title %}
+  {% if instance is None %}
+    New {{ model_type }}
+  {% else %}
+    Editing {{ model_type }} {{ instance.name }}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% if instance is None %}
+      New {{ model_type }}
+    {% else %}
+      Editing {{ model_type }} <em>{{ instance.name }}</em>
+    {% endif %}
+  </h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>
+      <button class="btn btn-primary" type="submit" value="submit">
+        {% if instance is None %}
+          Create
+        {% else %}
+          Save
+        {% endif %}
+      </button>
+    </p>
+  </form>
+{% endblock %}
