@@ -2,7 +2,7 @@
 
 {% block title %}
   {% if instance %}
-    Editing {{ model_type }} {{ instance }}
+    Editing {{ model_type }}
   {% else %}
     New {{ model_type }}
   {% endif %}
@@ -11,15 +11,22 @@
 {% block content %}
   <h2>
     {% if instance %}
-      Editing {{ model_type }} <em>{{ instance }}</em>
+      Editing {{ model_type }}
     {% else %}
       New {{ model_type }}
     {% endif %}
   </h2>
 
+  <p>
+    {% if related_model_type and related_instance %}
+      For {{ related_model_type }} <em>{{ related_instance }}</em>
+    {% endif %}
+  </p>
+
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+
     <p>
       <button class="btn btn-primary" type="submit">
         {% if instance %}Save{% else %}Create{% endif %}
