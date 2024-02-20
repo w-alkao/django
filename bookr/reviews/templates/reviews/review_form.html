@@ -17,11 +17,9 @@
     {% endif %}
   </h2>
 
-  <p>
-    {% if related_model_type and related_instance %}
-      For {{ related_model_type }} <em>{{ related_instance }}</em>
-    {% endif %}
-  </p>
+  {% if related_model_type and related_instance %}
+    <p>For {{ related_model_type }} <em>{{ related_instance }}</em></p>
+  {% endif %}
 
   <form method="post">
     {% csrf_token %}
