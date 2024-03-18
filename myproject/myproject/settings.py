@@ -129,3 +129,6 @@ STATIC_ROOT = BASE_DIR / "static_production_test"
 
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
+MEDIA_ROOT = BASE_DIR / "media"
+
+MEDIA_URL = "/media/"
