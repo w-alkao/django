@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import ExampleForm, OrderForm
+from django.conf import settings
 
 # Create your views here.
 
@@ -48,4 +49,8 @@ def order_form(request):
 
 
 def media_example(request):
+  if request.method == "POST":
+    save_path = settings.MEDIA_ROOT / request.FILES["file_upload"].name
+    with open(save_path, "wb") as output_file:
+      for chunk in request.FILES[""]
   return render(request, "media_example.html")
