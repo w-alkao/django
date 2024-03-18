@@ -44,3 +44,8 @@ def order_form(request):
   }
 
   return render(request, "order_form.html", context)
+
+
+
+def media_example(request):
+  return render(request, "media_example.html")

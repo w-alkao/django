@@ -21,12 +21,14 @@ import myapp.views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
   path('admin/', admin.site.urls),
   path('', TemplateView.as_view(template_name='index.html')),
   path('html-form-example/', myapp.views.html_form_example, name="html_form_example"),
   path('django-form-example/', myapp.views.django_form_example, name="django_form_example"),
   path('order-form/', myapp.views.order_form, name="order_form"),
+  path('media-example/', myapp.views.media_example),
 ]
 
 if settings.DEBUG:
