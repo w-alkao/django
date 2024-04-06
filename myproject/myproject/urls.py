@@ -29,6 +29,7 @@ urlpatterns = [
   path('django-form-example/', myapp.views.django_form_example, name="django_form_example"),
   path('order-form/', myapp.views.order_form, name="order_form"),
   path('media-example/', myapp.views.media_example, name="media_example"),
+  path('media-example2/', myapp.views.media_example2, name="media_example2")
 ]
 
 if settings.DEBUG:

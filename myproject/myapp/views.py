@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from .forms import ExampleForm, OrderForm
+from .forms import ExampleForm, OrderForm, UploadForm
 from django.conf import settings
+import os
 
 # Create your views here.
 
@@ -55,3 +56,22 @@ def media_example(request):
       for chunk in request.FILES["file_upload"].chunks():
         output_file.write(chunk)
   return render(request, "media_example.html")
+
+
+def media_example2(request):
+  if request.method == "POST":
+    form = UploadForm(request.POST, request.FILES)
+    if form.is_valid():
+      save_path = os.path.join(settings.MEDIA_ROOT, request.FILES["file_upload"].name)
+      with open(save_path, "wb") as output_file:
+        #for chunk in request.FILES["file_upload"].chunks(): we can use this too
+        for chunk in form.cleaned_data["file_upload"].chunks():
+          output_file.write(chunk)
+  else:
+    form = UploadForm()
+
+  context = {
+    "form": form
+  }
+
+  return render(request, "media_example2.html", context)
