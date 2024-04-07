@@ -1,6 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+
+
 def validate_email_domain(value):
   if value.split("@")[-1].lower() != "example.com":
     raise ValidationError("The email address must be on the domain example.com.")
@@ -75,3 +77,7 @@ class OrderForm(forms.Form):
 
 class UploadForm(forms.Form):
   file_upload = forms.FileField()
+
+
+class ImageUploadForm(forms.Form):
+  image_upload = forms.ImageField()

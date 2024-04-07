@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .forms import ExampleForm, OrderForm, UploadForm
+from .forms import ExampleForm, OrderForm, UploadForm, ImageUploadForm
 from django.conf import settings
 import os
+from PIL import Image
 
 # Create your views here.
 
@@ -49,16 +50,16 @@ def order_form(request):
 
 
 
-def media_example(request):
+def media_html_form(request):
   if request.method == "POST":
     save_path = settings.MEDIA_ROOT / request.FILES["file_upload"].name
     with open(save_path, "wb") as output_file:
       for chunk in request.FILES["file_upload"].chunks():
         output_file.write(chunk)
-  return render(request, "media_example.html")
+  return render(request, "media_html_form.html")
 
 
-def media_example2(request):
+def media_django_form(request):
   if request.method == "POST":
     form = UploadForm(request.POST, request.FILES)
     if form.is_valid():
@@ -74,4 +75,22 @@ def media_example2(request):
     "form": form
   }
 
-  return render(request, "media_example2.html", context)
+  return render(request, "media_django_form.html", context)
+
+
+def image_django_form(request):
+  if request.method == "POST":
+    form = ImageUploadForm(request.POST, request.FILES)
+    if form.is_valid():
+      save_path = os.path.join(settings.MEDIA_ROOT, request.FILES["image_upload"].name)
+      image = Image.open(form.cleaned_data["image_upload"])
+      image.thumbnail((50, 50))
+      image.save(save_path)
+  else:
+    form = ImageUploadForm()
+
+  context = {
+    "form": form
+  }
+
+  return render(request, 'image_django_form.html', context)
