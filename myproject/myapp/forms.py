@@ -81,3 +81,10 @@ class UploadForm(forms.Form):
 
 class ImageUploadForm(forms.Form):
   image_upload = forms.ImageField()
+
+
+class FileUploadForm(forms.Form):
+  image_upload = forms.ImageField()
+  file_upload = forms.FileField()
+
+

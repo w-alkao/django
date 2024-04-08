@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from .forms import ExampleForm, OrderForm, UploadForm, ImageUploadForm
+from .forms import ExampleForm, OrderForm, FileUploadForm,UploadForm, ImageUploadForm
 from django.conf import settings
 import os
 from PIL import Image
+from .models import ExampleModel
 
 # Create your views here.
 
@@ -94,3 +95,23 @@ def image_django_form(request):
   }
 
   return render(request, 'image_django_form.html', context)
+
+
+def media_example(request):
+  instance = None
+  if request.method == "POST":
+    form = FileUploadForm(request.POST, request.FILES)
+    if form.is_valid():
+      instance = ExampleModel()
+      instance.image_field = form.cleaned_data["image_upload"]
+      instance.file_field = form.cleaned_data["file_upload"]
+      instance.save()
+  else:
+    form = FileUploadForm()
+
+  context = {
+    "form": form,
+    "instance": instance,
+  }
+
+  return render(request, "media_example.html", context)
