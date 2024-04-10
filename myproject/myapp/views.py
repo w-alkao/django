@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import ExampleForm, OrderForm, FileUploadForm,UploadForm, ImageUploadForm
+from .forms import ExampleForm, OrderForm, FileUploadForm, FileUploadForm2, UploadForm, ImageUploadForm
 from django.conf import settings
 import os
 from PIL import Image
@@ -115,3 +115,21 @@ def media_example(request):
   }
 
   return render(request, "media_example.html", context)
+
+
+
+def media_example2(request):
+  instance = None
+  if request.method == "POST":
+    form = FileUploadForm2(request.POST, request.FILES)
+    if form.is_valid():
+      instance = form.save()
+  else:
+    form = FileUploadForm()
+
+  context = {
+    "form": form,
+    "instance": instance,
+  }
+
+  return render(request, "media_example2.html", context)

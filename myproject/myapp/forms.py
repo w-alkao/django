@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from .models import ExampleModel
 
 
 
@@ -86,5 +87,11 @@ class ImageUploadForm(forms.Form):
 class FileUploadForm(forms.Form):
   image_upload = forms.ImageField()
   file_upload = forms.FileField()
+
+
+class FileUploadForm2(forms.ModelForm):
+  class Meta:
+    model = ExampleModel
+    fields = "__all__"
 
 
