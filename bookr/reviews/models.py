@@ -21,7 +21,8 @@ class Book(models.Model):
   isbn = models.CharField(max_length=20, verbose_name="ISBN number of the book.")
   publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
   contributors = models.ManyToManyField("Contributor", through="BookContributor")
-
+  cover = models.ImageField(upload_to="book_covers/", null=True, blank=True)
+  sample = models.FileField(upload_to="book_samples/", null=True, blank=True)
   def isbn13(self):
     return f'{self.isbn[0:3]}-{self.isbn[3:4]}-{self.isbn[4:6]}-{self.isbn[6:12]}-{self.isbn[12:13]}'
 

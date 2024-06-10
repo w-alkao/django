@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book, Contributor, Publisher, Review
 from .utils import average_rating
-from .forms import SearchForm, PublisherForm, ReviewForm
+from .forms import SearchForm, PublisherForm, ReviewForm, BookMediaForm
 from django.contrib import messages
 from django.utils import timezone
+from PIL import Image
+from django.conf import settings
+import os
 
 
 
@@ -169,3 +172,19 @@ def review_edit(request, b_pk, r_pk=None):
   }
 
   return render(request, "reviews/review_form.html", context)
+
+
+
+#-------------------------------------------------------------------------------------------
+
+
+
+def book_media(request, pk):
+  if request.method == "POST":
+    form = BookMediaForm(request.POST, request.FILES)
+    if form.is_valid():
+      instance = form.save(commit=False)
+      save_path = os.path.join(settings.MEDIA_ROOT, request.FILES["cover"].name)
+      instance = Image.open(form.cleaned_data["cover"])
+      instance.thumbnail((300, 300))
+      instance.save(save_path)
