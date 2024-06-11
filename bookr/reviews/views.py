@@ -180,11 +180,26 @@ def review_edit(request, b_pk, r_pk=None):
 
 
 def book_media(request, pk):
+  book = get_object_or_404(Book, pk=pk)
   if request.method == "POST":
     form = BookMediaForm(request.POST, request.FILES)
     if form.is_valid():
-      instance = form.save(commit=False)
-      save_path = os.path.join(settings.MEDIA_ROOT, request.FILES["cover"].name)
-      instance = Image.open(form.cleaned_data["cover"])
-      instance.thumbnail((300, 300))
-      instance.save(save_path)
+      if form.cleaned_data["cover"]:
+        instance = form.save(False)
+        save_path = os.path.join(settings.MEDIA_ROOT, request.FILES["cover"].name)
+        instance = Image.open(form.cleaned_data["cover"])
+        instance.thumbnail((300, 300))
+        instance.save(save_path)
+      else:
+        instance = form.save()
+        
+      messages.success(request, "Book x was succesfully updated")
+      return redirect("book_detail", book.pk)
+  else:
+    form = BookMediaForm()
+    
+  context = {
+    "form": form
+  }
+  
+  return render(request, "reviews/file_form.html", context)
