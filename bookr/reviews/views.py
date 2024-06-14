@@ -199,7 +199,8 @@ def book_media(request, pk):
     form = BookMediaForm()
     
   context = {
-    "form": form
+    "form": form,
+    "book": book,
   }
   
   return render(request, "reviews/file_form.html", context)

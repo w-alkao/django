@@ -1,2 +1,23 @@
-{% 'extend reviews/base.html' %}
+{% extends 'reviews/base.html' %}
 
+{% block title %}
+  Editing {{ book }}
+{% endblock %}
+
+
+{% block content %}
+  <h2>
+    Editing {{ book }}
+  </h2>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <p>
+      <button class="btn btn-primary" type="submit">
+        SAVE
+      </button>
+    </p>
+  </form>
+{% endblock %}
