@@ -1,22 +1,22 @@
 {% extends 'reviews/base.html' %}
 
 {% block title %}
-  Editing {{ book }}
+  Editing {{ model_type }} {{ instance }}
 {% endblock %}
 
 
 {% block content %}
   <h2>
-    Editing {{ book }}
+    Editing {{ model_type }} {{ instance }}
   </h2>
 
-  <form method="post">
+  <form method="post" {% if is_file_upload %}enctype="multipart/form-data"{% endif %}>
     {% csrf_token %}
     {{ form.as_p }}
 
     <p>
       <button class="btn btn-primary" type="submit">
-        SAVE
+        {% if instance %}SAVE{% else %}CREATE{% endif %}
       </button>
     </p>
   </form>

@@ -40,5 +40,5 @@ class ReviewForm(forms.ModelForm):
 class BookMediaForm(forms.ModelForm):
   class Meta:
     model = Book
-    fields = ("cover", "sample")
+    fields = ["cover", "sample"]
     

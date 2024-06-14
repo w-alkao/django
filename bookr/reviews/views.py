@@ -7,6 +7,8 @@ from django.utils import timezone
 from PIL import Image
 from django.conf import settings
 import os
+from io import BytesIO
+from django.core.files.images import ImageFile
 
 
 
@@ -182,25 +184,28 @@ def review_edit(request, b_pk, r_pk=None):
 def book_media(request, pk):
   book = get_object_or_404(Book, pk=pk)
   if request.method == "POST":
-    form = BookMediaForm(request.POST, request.FILES)
+    form = BookMediaForm(request.POST, request.FILES, instance=book)
     if form.is_valid():
-      if form.cleaned_data["cover"]:
-        instance = form.save(False)
-        save_path = os.path.join(settings.MEDIA_ROOT, request.FILES["cover"].name)
-        instance = Image.open(form.cleaned_data["cover"])
-        instance.thumbnail((300, 300))
-        instance.save(save_path)
-      else:
-        instance = form.save()
-        
-      messages.success(request, "Book x was succesfully updated")
+      book = form.save(False)
+      cover = form.cleaned_data.get("cover")
+      if cover:
+        image = Image.open(cover)
+        image.thumbnail((300, 300))
+        image_data = BytesIO()
+        image.save(fp=image_data, format=cover.image.format)
+        image_file = ImageFile(image_data)
+        book.cover.save(cover.name, image_file)
+      book.save()
+      messages.success(request, f"Book {book} was successfully updated.")
       return redirect("book_detail", book.pk)
   else:
-    form = BookMediaForm()
+    form = BookMediaForm(instance=book)
     
   context = {
     "form": form,
-    "book": book,
+    "instance": book,
+    "model_type": "Book",
+    "is_file_upload": True
   }
   
   return render(request, "reviews/file_form.html", context)
