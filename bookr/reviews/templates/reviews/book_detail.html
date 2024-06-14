@@ -4,18 +4,18 @@
 <br>
 <h3>Book Details</h3>
 <hr>
-{% if cover %}
-  <img src="/media/book_covers/{{ cover.name }}">
+{% if book.cover %}
+  <img src="{{ book.cover.url }}">
+  <br>
 {% endif %}
-<br>
 <span class="text-info">Title: </span><span>{{ book.title }}</span>
 <br>
 <span class="text-info">Publisher: </span><span>{{ book.publisher }}</span>
 <br>
 <span class="text-info">Publication Date: </span><span>{{ book.publication_date }}</span>
 <br>
-{% if sample %}
-  <span class="text-info">Sample: </span><span><a href="/media/book_samples/{{ sample }}">book sample pdf</a></span>
+{% if book.sample %}
+  <span class="text-info">Sample: </span><span><a href="{{ book.sample.url }}">Download</a></span>
   <br>
 {% endif %}
 {% if not reviews %}
@@ -46,5 +46,4 @@
 {% endif %}
 <a class="btn btn-primary" href="{% url 'review_create' book.pk %}">Add Review</a>
 <a class="btn btn-primary" href="{% url 'book_media' book.pk %}">Media</a>
-
 {% endblock %}
