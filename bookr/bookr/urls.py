@@ -15,13 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-from django.contrib import admin
+from django.contrib import admin, auth
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
   path('admin/', admin.site.urls),
   path('', include('reviews.urls')),
+  path('accounts/', include(('django.contrib.auth.urls', 'auth'), namespace='accounts')),
+  path('accounts/password_reset/done/', auth.views.PasswordResetDoneView.as_view(), name='password_reset_done',),
+  path('accounts/reset/done/', auth.views.PasswordResetCompleteView.as_view(), name='password_reset_complete',),
 ]
 
 if settings.DEBUG:
