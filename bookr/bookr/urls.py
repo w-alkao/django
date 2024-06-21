@@ -18,9 +18,11 @@ from django.urls import path, include
 from django.contrib import admin, auth
 from django.conf import settings
 from django.conf.urls.static import static
+from bookr.views import profile
 
 urlpatterns = [
   path('admin/', admin.site.urls),
+  path('accounts/profile/', profile, name='profile'),
   path('', include('reviews.urls')),
   path('accounts/', include(('django.contrib.auth.urls', 'auth'), namespace='accounts')),
   path('accounts/password_reset/done/', auth.views.PasswordResetDoneView.as_view(), name='password_reset_done',),
