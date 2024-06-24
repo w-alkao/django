@@ -5,10 +5,10 @@ from .forms import SearchForm, PublisherForm, ReviewForm, BookMediaForm
 from django.contrib import messages
 from django.utils import timezone
 from PIL import Image
-from django.conf import settings
-import os
+from django.contrib.auth.decorators import user_passes_test, login_required
 from io import BytesIO
 from django.core.files.images import ImageFile
+from django.core.exceptions import PermissionDenied
 
 
 
@@ -115,6 +115,10 @@ def book_search(request):
 
 
 
+def is_staff_user(user):
+  return user.is_staff
+
+@user_passes_test(is_staff_user)
 def publisher_edit(request, pk=None):
   if pk is not None:
     publisher = get_object_or_404(Publisher, pk=pk)
@@ -141,11 +145,14 @@ def publisher_edit(request, pk=None):
 #-------------------------------------------------------------------------------------------------------
 
 
-
+@login_required
 def review_edit(request, b_pk, r_pk=None):
   book = get_object_or_404(Book, pk=b_pk)
   if r_pk:
     review = get_object_or_404(Review, book_id=b_pk, pk=r_pk)
+    user = request.user
+    if not user.is_staff and review.creator.id != user.id:
+      raise PermissionDenied
   else:
     review = None
 
@@ -180,7 +187,7 @@ def review_edit(request, b_pk, r_pk=None):
 #-------------------------------------------------------------------------------------------
 
 
-
+@login_required
 def book_media(request, pk):
   book = get_object_or_404(Book, pk=pk)
   if request.method == "POST":
