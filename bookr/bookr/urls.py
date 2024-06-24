@@ -22,9 +22,9 @@ from bookr.views import profile
 
 urlpatterns = [
   path('admin/', admin.site.urls),
+path('accounts/', include(('django.contrib.auth.urls', 'auth'), namespace='accounts')),
   path('accounts/profile/', profile, name='profile'),
   path('', include('reviews.urls')),
-  path('accounts/', include(('django.contrib.auth.urls', 'auth'), namespace='accounts')),
   path('accounts/password_reset/done/', auth.views.PasswordResetDoneView.as_view(), name='password_reset_done',),
   path('accounts/reset/done/', auth.views.PasswordResetCompleteView.as_view(), name='password_reset_complete',),
 ]
