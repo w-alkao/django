@@ -39,6 +39,9 @@
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ search_text }}" minlength="3">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
+      {% if user.is_authenticated %}
+        <p style="color: blue">User: {{ request.user.username }}</p>
+      {% endif %}
     </div>
   </nav>
   <div class="container-fluid">
