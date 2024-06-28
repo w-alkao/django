@@ -24,10 +24,12 @@
         </li>
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <form method="post" action="{% url 'accounts:logout' %}">
+            <a class="nav-link">
+              <form method="post" action="{% url 'accounts:logout' %}">
               {% csrf_token %}
-              <button type="submit">Logout</button>
+              <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
             </form>
+            </a>
           </li>
         {% else %}
           <li class="nav-item">
@@ -40,7 +42,7 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
       {% if user.is_authenticated %}
-        <p style="color: blue">User: {{ request.user.username }}</p>
+        <a class="nav-link" href="{% url 'profile' %}">User: {{ user.username }}</a>
       {% endif %}
     </div>
   </nav>

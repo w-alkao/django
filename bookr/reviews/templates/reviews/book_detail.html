@@ -42,7 +42,7 @@
       <span class="text-info">Creator : </span><span>{{ review.creator.username }}</span>
       <br>
     </li>
-    {% if user.is_staff or review.creator.id == user.id %}
+    {% if user.is_staff or user.id == reviews.creator.id %}
       <a href="{% url 'review_edit' book.pk review.pk %}">Edit Review</a>
     {% endif %}
     {% endfor %}
