@@ -1,16 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Bookr{% endblock %}
+{% block heading %}Profile{% endblock %}
 
 {% block content %}
-  <h2>Profile</h2>
-  <div>
-    <p>
-      Username: {{ request.user.username }}<br>
-      Name: {{ request.user.first_name }} {{ request.user.last_name }}<br>
-      Date Joined: {{ request.user.date_joined }}<br>
-      Email: {{ request.user.email }}<br>
-      Last Login: {{ request.user.last_login }}<br>
-    </p>
+  <link rel="stylesheet" href="{% static 'profile.css' %}">
+  <div class="flexrow">
+    <div class="infocell">
+      <h2>Profile</h2>
+        <p>
+          Username: {{ request.user.username }}<br>
+          Name: {{ request.user.first_name }} {{ request.user.last_name }}<br>
+          Date Joined: {{ request.user.date_joined }}<br>
+          Email: {{ request.user.email }}<br>
+          Last Login: {{ request.user.last_login }}<br>
+        </p>
+    </div>
+
+    <div class="infocell">
+      <h5>Viewed Books</h5>
+      <p>
+        {% for book_id, book_title in request.session.viewed_books %}
+          <a href="{% url 'book_detail' book_id %}">{{ book_title }}</a><br>
+        {% empty %}
+          No recently viewed books founds.
+        {% endfor %}
+      </p>
+    </div>
   </div>
 {% endblock %}

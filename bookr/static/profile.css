@@ -1,0 +1,16 @@
+.flexrow {
+  display: flex;
+  border: 2px black;
+}
+
+.flexrow > div {
+  flex: 1;
+}
+
+.infocell {
+  border: 2px solid green;
+  border-radius: 5px 25px;
+  background-color: white;
+  padding: 5px;
+  margin: 20px 5px 5px 5px;
+}
