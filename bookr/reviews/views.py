@@ -96,12 +96,6 @@ def book_search(request):
   if form.is_valid() and form.cleaned_data["search"]:
     search = form.cleaned_data["search"]
     search_by = form.cleaned_data.get("search_in") or "title"
-    if request.user.is_authenticated:
-      search_his = [search, search_by]
-      if search_his in search_history:
-        search_history.pop(search_history.index(search_his))
-      search_history.insert(0, search_his)
-      request.session['search_history'] = search_history
     if search_by == "title":
       books = Book.objects.filter(title__icontains=search)
     else:
@@ -113,6 +107,16 @@ def book_search(request):
       for contributor in contributor_last_name:
         for book in contributor.book_set.all():
           books.add(book)
+          
+    if request.user.is_authenticated:
+      search_his = [search, search_by]
+      if search_his in search_history:
+        search_history.pop(search_history.index(search_his))
+      search_history.insert(0, search_his)
+      request.session['search_history'] = search_history
+  elif search_history:
+    initial = dict(search=search_text, search_in=search_history[-1][0])
+    form = SearchForm(initial=initial)
 
   context = {
     "form": form,

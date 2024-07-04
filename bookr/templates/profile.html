@@ -33,7 +33,7 @@
       <h5>Search History</h5>
       <p>
         {% for search, search_in in request.session.search_history %}
-          <a href="/book-search?search={{ search }}&search_in={{ search_in }}">{{ search }} ({{ search_in }})</a><br>
+          <a href="{% url 'book_search' %}?search={{ search|urlencode }}&search_in={{ search_in }}">{{ search }} ({{ search_in }})</a><br>
         {% empty %}
           No recent search terms
         {% endfor %}
