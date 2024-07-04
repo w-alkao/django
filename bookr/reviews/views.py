@@ -91,10 +91,17 @@ def book_search(request):
   search_text = request.GET.get("search", "")
   form = SearchForm(request.GET)
   books = set()
-
+  search_history = request.session.get("search_history", [])
+  
   if form.is_valid() and form.cleaned_data["search"]:
     search = form.cleaned_data["search"]
     search_by = form.cleaned_data.get("search_in") or "title"
+    if request.user.is_authenticated:
+      search_his = [search, search_by]
+      if search_his in search_history:
+        search_history.pop(search_history.index(search_his))
+      search_history.insert(0, search_his)
+      request.session['search_history'] = search_history
     if search_by == "title":
       books = Book.objects.filter(title__icontains=search)
     else:

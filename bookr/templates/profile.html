@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="{% static 'profile.css' %}">
   <div class="flexrow">
     <div class="infocell">
-      <h2>Profile</h2>
+      <h5>Profile</h5>
         <p>
           Username: {{ request.user.username }}<br>
           Name: {{ request.user.first_name }} {{ request.user.last_name }}<br>
@@ -25,6 +25,17 @@
           <a href="{% url 'book_detail' book_id %}">{{ book_title }}</a><br>
         {% empty %}
           No recently viewed books founds.
+        {% endfor %}
+      </p>
+    </div>
+
+    <div class="infocell">
+      <h5>Search History</h5>
+      <p>
+        {% for search, search_in in request.session.search_history %}
+          <a href="/book-search?search={{ search }}&search_in={{ search_in }}">{{ search }} ({{ search_in }})</a><br>
+        {% empty %}
+          No recent search terms
         {% endfor %}
       </p>
     </div>
