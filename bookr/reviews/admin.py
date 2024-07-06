@@ -5,23 +5,21 @@ from reviews.models import Publisher, Contributor, Book, BookContributor, Review
 
 class BookAdmin(admin.ModelAdmin):
   date_hierarchy = 'publication_date'
-  list_display = ('title', 'isbn13', 'has_isbn')
+  list_display = ('title', 'isbn13', 'has_isbn', 'publication_date', 'get_publisher')
   list_filter = ('publisher', 'publication_date')
   search_fields = ('title', 'isbn', 'publisher__name')
-  @admin.display(
-    ordering='isbn',
-    description='ISBN-13',
-    empty_value='-/',
-  )
+  @admin.display(ordering='isbn', description='ISBN-13', empty_value='-/')
   def isbn13(self, obj):
     return f'{obj.isbn[0:3]}-{obj.isbn[3:4]}-{obj.isbn[4:6]}-{obj.isbn[6:12]}-{obj.isbn[12:13]}'
 
-  @admin.display(
-    boolean=True,
-    description='Has ISBN-13'
-  )
+  @admin.display(boolean=True, description='Has ISBN-13')
   def has_isbn(self, obj):
     return bool(obj.isbn)
+  
+  @admin.display(ordering='publisher')
+  def get_publisher(self, obj):
+    return obj.publisher.name
+  
 
 
 class ContributorAdmin(admin.ModelAdmin):

@@ -5,7 +5,9 @@ from django.urls import path
 
 # Register your models here.
 class BookrAdmin(admin.AdminSite):
-	site_header = "Bookr Administration"
+	site_header = "Bookr Administration Portal"
+	site_title = "Bookr Administration Portal"
+	index_title = "Bookr Administration"
 	logout_template = 'admin/logout.html'
 	
 	def profile_view(self, request):
