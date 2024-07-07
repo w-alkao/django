@@ -28,6 +28,7 @@ urlpatterns = [
   path('', include('reviews.urls')),
   path('accounts/password_reset/done/', auth.views.PasswordResetDoneView.as_view(), name='password_reset_done',),
   path('accounts/reset/done/', auth.views.PasswordResetCompleteView.as_view(), name='password_reset_complete',),
+  path('filter_demo/', include('filter_demo.urls')),
 ]
 
 if settings.DEBUG:
